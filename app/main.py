@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.api.endpoints import router as api_router
@@ -10,8 +10,11 @@ from app.utils.file_handlers import ensure_directories
 async def lifespan(app: FastAPI):
     # Startup
     ensure_directories()
-    print("✅ DocuMind AI Backend iniciado correctamente")
+    print("🚀 DocuMind AI Backend iniciado correctamente")
+    print(f"📁 Upload directory: {settings.UPLOAD_DIR}")
+    print(f"📁 Output directory: {settings.OUTPUT_DIR}")
     print(f"🌐 CORS habilitado para todos los orígenes")
+    print(f"🔧 DeepSeek API configurada: {bool(settings.DEEPSEEK_API_KEY)}")
     yield
     # Shutdown
     print("⏹️  DocuMind AI Backend detenido")
@@ -40,13 +43,19 @@ async def root():
     return {
         "message": "¡DocuMind AI Backend está funcionando!",
         "version": settings.VERSION,
+        "service": settings.PROJECT_NAME,
         "docs": "/docs",
-        "health": "/health"
+        "health": "/api/health",
+        "deepseek_configured": bool(settings.DEEPSEEK_API_KEY)
     }
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "DocuMind AI Backend"}
+    return {
+        "status": "healthy", 
+        "service": settings.PROJECT_NAME,
+        "version": settings.VERSION
+    }
 
 # Handler global para OPTIONS requests
 @app.options("/{rest_of_path:path}")

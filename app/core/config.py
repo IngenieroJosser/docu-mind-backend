@@ -1,38 +1,33 @@
 import os
-from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
+from typing import Optional
 
-load_dotenv()
-
-class Settings:
-    PROJECT_NAME: str = "DocuMind AI Backend"
+class Settings(BaseSettings):
+    # Configuración básica de la aplicación
+    PROJECT_NAME: str = "DocuMind AI"
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api"
+    HOST: str = "0.0.0.0"
+    PORT: int = 8000
     
-    # Server
-    HOST: str = os.getenv("HOST", "0.0.0.0")
-    PORT: int = int(os.getenv("PORT", 8000))
-    
-    # CORS - ACTUALIZADO
-    BACKEND_CORS_ORIGINS: list = [
-        "http://localhost:3000", 
-        "http://127.0.0.1:3000",
-        "http://localhost:3001",
-        "http://127.0.0.1:3001",
-        "https://docu-mind-eight.vercel.app"
-    ]
-    
-    # File upload
-    MAX_FILE_SIZE: int = 100 * 1024 * 1024
+    # Configuración de directorios
     UPLOAD_DIR: str = "uploads"
     OUTPUT_DIR: str = "outputs"
     TEMPLATE_DIR: str = "templates"
+    API_BASE_URL: str = "http://localhost:8000"
     
-    # AI Configuration
-    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-3.5-turbo")
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    # DeepSeek API Configuration
+    DEEPSEEK_API_KEY: Optional[str] = None
+    DEEPSEEK_BASE_URL: str = "https://api.deepseek.com/v1"
+    DEEPSEEK_MODEL: str = "deepseek-chat"
     
-    # Databricks
-    DATABRICKS_HOST: str = os.getenv("DATABRICKS_HOST", "")
-    DATABRICKS_TOKEN: str = os.getenv("DATABRICKS_TOKEN", "")
+    # Configuración de rate limiting
+    MAX_TOKENS: int = 2000
+    TIMEOUT: int = 30
+
+    class Config:
+        env_file = ".env"
+        case_sensitive = False
+        extra = "ignore"
 
 settings = Settings()
