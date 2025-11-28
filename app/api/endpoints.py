@@ -174,6 +174,7 @@ async def process_documents(job_id: str, files: List[UploadFile]):
                 # Asegurar que el directorio existe
                 os.makedirs(os.path.dirname(output_pdf_path), exist_ok=True)
                 
+                # Generar PDF con el nuevo TemplateManager
                 template_manager.generate_pdf(
                     documents=processed_documents,
                     output_path=output_pdf_path,
@@ -196,6 +197,17 @@ async def process_documents(job_id: str, files: List[UploadFile]):
                         "consolidated_pdf": pdf_url
                     })
                     print(f"✅ Job {job_id} completado exitosamente. PDF URL: {pdf_url}")
+                    
+                    # Debug: información sobre el tipo de template usado
+                    template_type = template_manager.determine_template_type(processed_documents)
+                    scientific_count = sum(1 for doc in processed_documents if doc.get("type") == "scientific")
+                    general_count = len(processed_documents) - scientific_count
+                    print(f"📊 Resumen del análisis:")
+                    print(f"   - Total documentos: {len(processed_documents)}")
+                    print(f"   - Científicos: {scientific_count}")
+                    print(f"   - Generales: {general_count}")
+                    print(f"   - Template usado: {template_type.upper()}")
+                    
                 else:
                     raise Exception("PDF file was not created")
                 
@@ -223,7 +235,6 @@ async def process_documents(job_id: str, files: List[UploadFile]):
             "error": f"Error procesando documentos: {str(e)}",
             "consolidated_pdf": None
         })
-        
 
 @router.get("/download-pdf/{job_id}")
 async def download_pdf(job_id: str):
@@ -261,6 +272,20 @@ async def download_pdf(job_id: str):
         print(f"❌ PDF está vacío: {pdf_path}")
         raise HTTPException(status_code=500, detail="PDF file is empty")
     
+    # Información adicional para debug
+    job_info = jobs[job_id]
+    scientific_count = sum(1 for doc in job_info["documents"] if doc.get("type") == "scientific")
+    general_count = len(job_info["documents"]) - scientific_count
+    template_type = template_manager.determine_template_type(job_info["documents"])
+    
+    print(f"📊 Información del PDF a descargar:")
+    print(f"   - Job ID: {job_id}")
+    print(f"   - Documentos totales: {len(job_info['documents'])}")
+    print(f"   - Científicos: {scientific_count}")
+    print(f"   - Generales: {general_count}")
+    print(f"   - Template usado: {template_type.upper()}")
+    print(f"   - Tamaño archivo: {file_size} bytes")
+    
     # Usar FileResponse con headers para descarga
     return FileResponse(
         pdf_path,
@@ -272,13 +297,50 @@ async def download_pdf(job_id: str):
         }
     )
 
+@router.get("/job-info/{job_id}")
+async def get_job_info(job_id: str):
+    """Endpoint adicional para obtener información detallada del job (debug)"""
+    if job_id not in jobs:
+        raise HTTPException(status_code=404, detail="Job not found")
+    
+    job = jobs[job_id]
+    documents = job.get("documents", [])
+    
+    scientific_count = sum(1 for doc in documents if doc.get("type") == "scientific")
+    general_count = len(documents) - scientific_count
+    template_type = template_manager.determine_template_type(documents)
+    
+    return {
+        "job_id": job_id,
+        "status": job["status"],
+        "total_documents": len(documents),
+        "scientific_documents": scientific_count,
+        "general_documents": general_count,
+        "template_type": template_type,
+        "documents": [
+            {
+                "name": doc["name"],
+                "type": doc["type"],
+                "size": doc.get("size", "N/A")
+            }
+            for doc in documents
+        ],
+        "pdf_available": job.get("consolidated_pdf") is not None,
+        "error": job.get("error")
+    }
+
 @router.get("/health")
 async def health_check():
     """Endpoint de health check"""
     return {
         "status": "healthy",
         "service": "DocuMind AI Backend",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "features": {
+            "template_system": "active",
+            "document_processing": "active",
+            "ai_analysis": "active"
+        }
     }
 
 @router.options("/{rest_of_path:path}")
