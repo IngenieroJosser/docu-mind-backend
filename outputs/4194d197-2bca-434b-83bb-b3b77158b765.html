@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
+    <title>Resumen Consolidado - DocuMind AI</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@200;300;400;500;600;700&display=swap');
 
         :root {
             --blue-500: #3b82f6;
@@ -21,6 +21,8 @@
             --slate-700: #334155;
             --slate-800: #1e293b;
             --slate-900: #0f172a;
+            --emerald-500: #10b981;
+            --rose-500: #f43f5e;
         }
 
         * {
@@ -30,8 +32,8 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: white;
+            font-family: 'Stack Sans Headline', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             color: var(--slate-700);
             line-height: 1.6;
             padding: 0;
@@ -41,18 +43,30 @@
 
         .page-container {
             max-width: 210mm;
+            min-height: 297mm;
             margin: 0 auto;
             background: white;
             position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
         }
 
         /* Header Styles */
         .header {
             background: linear-gradient(135deg, var(--blue-600) 0%, var(--purple-600) 100%);
             color: white;
-            padding: 2.5rem;
+            padding: 3rem 2.5rem;
             position: relative;
             overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
         }
 
         .header-content {
@@ -65,6 +79,7 @@
             align-items: center;
             gap: 0.5rem;
             background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             padding: 0.75rem 1.25rem;
             border-radius: 1rem;
             margin-bottom: 1.5rem;
@@ -74,24 +89,30 @@
         }
 
         .title {
-            font-size: 2.25rem;
-            font-weight: 600;
+            font-size: 2.5rem;
+            font-weight: 300;
             margin-bottom: 0.5rem;
             line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
         .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 500;
-            opacity: 0.9;
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1rem;
+            letter-spacing: -0.01em;
         }
 
         .description {
-            font-size: 1rem;
+            font-size: 1.125rem;
             opacity: 0.9;
             max-width: 600px;
             margin-bottom: 2rem;
+            font-weight: 400;
             line-height: 1.5;
         }
 
@@ -106,27 +127,29 @@
         }
 
         .stat-value {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 300;
             margin-bottom: 0.25rem;
+            letter-spacing: -0.01em;
         }
 
         .stat-label {
             font-size: 0.875rem;
             opacity: 0.8;
             font-weight: 500;
+            letter-spacing: 0.02em;
         }
 
         /* Content Styles */
         .content {
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
         .summary-section {
             background: var(--slate-50);
             border: 1px solid var(--slate-200);
-            border-radius: 1rem;
-            padding: 1.5rem;
+            border-radius: 1.5rem;
+            padding: 2rem;
             margin-bottom: 2rem;
         }
 
@@ -138,6 +161,7 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            letter-spacing: -0.01em;
         }
 
         .summary-title::before {
@@ -149,19 +173,19 @@
         }
 
         .documents-grid {
-            display: block;
+            display: grid;
+            gap: 1.5rem;
         }
 
         /* Document Card Styles */
         .document-card {
             background: white;
             border: 2px solid var(--slate-200);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            page-break-inside: avoid;
         }
 
         .document-card::before {
@@ -187,33 +211,35 @@
         .document-header {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            justify-content: between;
+            margin-bottom: 1.5rem;
             gap: 1rem;
         }
 
         .document-icon {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 3rem;
+            height: 3rem;
             background: linear-gradient(135deg, var(--blue-500) 0%, var(--purple-500) 100%);
-            border-radius: 0.75rem;
+            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            color: white;
-            font-weight: bold;
         }
 
         .document-info {
             flex: 1;
+            min-width: 0;
         }
 
         .document-name {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--slate-800);
             margin-bottom: 0.5rem;
             word-break: break-word;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
         }
 
         .document-meta {
@@ -250,18 +276,18 @@
 
         .document-summary {
             color: var(--slate-600);
-            line-height: 1.6;
+            line-height: 1.7;
             white-space: pre-line;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 400;
         }
 
         /* Footer */
         .footer {
             background: var(--slate-50);
             border-top: 1px solid var(--slate-200);
-            padding: 1.5rem 2rem;
+            padding: 2rem 2.5rem;
             text-align: center;
-            margin-top: 2rem;
         }
 
         .footer-content {
@@ -272,7 +298,6 @@
             color: var(--slate-500);
             font-size: 0.875rem;
             font-weight: 500;
-            flex-wrap: wrap;
         }
 
         .footer-logo {
@@ -284,15 +309,18 @@
         }
 
         .logo-icon {
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
             background: linear-gradient(135deg, var(--blue-500) 0%, var(--purple-500) 100%);
-            border-radius: 0.375rem;
+            border-radius: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.75rem;
+        }
+
+        /* Page Break for Printing */
+        .page-break {
+            page-break-before: always;
         }
 
         /* Print Styles */
@@ -325,22 +353,6 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            
-            .document-type.scientific,
-            .document-type.general {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            
-            .footer {
-                position: fixed;
-                bottom: 0;
-                width: 100%;
-            }
-        }
-
-        .page-break {
-            page-break-before: always;
         }
     </style>
 </head>
@@ -350,10 +362,11 @@
         <div class="header">
             <div class="header-content">
                 <div class="badge">
+                    <span></span>
                     ANÁLISIS CON IA
                 </div>
                 
-                <h1 class="title">{{ title }}</h1>
+                <h1 class="title">Resumen Consolidado - DocuMind AI</h1>
                 <div class="subtitle">Inteligencia de Documentos Reimaginada</div>
                 
                 <p class="description">
@@ -362,11 +375,11 @@
                 
                 <div class="stats">
                     <div class="stat-item">
-                        <div class="stat-value">{{ total_documents }}</div>
+                        <div class="stat-value">1</div>
                         <div class="stat-label">DOCUMENTOS</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">{{ summary_date.split(' ')[0] }}</div>
+                        <div class="stat-value">2025-11-28 07:59</div>
                         <div class="stat-label">FECHA</div>
                     </div>
                     <div class="stat-item">
@@ -383,7 +396,7 @@
             <div class="summary-section">
                 <h2 class="summary-title">Resumen Ejecutivo</h2>
                 <p>
-                    Este reporte contiene el análisis consolidado de {{ total_documents }} documentos procesados 
+                    Este reporte contiene el análisis consolidado de 1 documentos procesados 
                     mediante inteligencia artificial. Cada documento ha sido clasificado automáticamente y se ha 
                     generado un resumen ejecutivo con los puntos más relevantes.
                 </p>
@@ -391,30 +404,51 @@
 
             <!-- Documents Grid -->
             <div class="documents-grid">
-                {% for document in documents %}
-                <div class="document-card {{ document.type }} {% if loop.index0 > 0 and loop.index0 % 2 == 0 %}page-break{% endif %}">
+                
+                <div class="document-card general ">
                     <div class="document-header">
                         <div class="document-icon">
-                            {{ loop.index }}
+                            <span style="color: white; font-size: 1.25rem;"></span>
                         </div>
                         <div class="document-info">
-                            <h3 class="document-name">{{ document.name }}</h3>
+                            <h3 class="document-name">Informe de estadistica.docx</h3>
                             <div class="document-meta">
-                                <span class="document-type {{ document.type }}">
-                                    {{ document.type.upper() }}
+                                <span class="document-type general">
+                                    GENERAL
                                 </span>
-                                {% if document.size %}
-                                <span class="document-size">{{ document.size }}</span>
-                                {% endif %}
+                                
+                                <span class="document-size">0.5 MB</span>
+                                
                             </div>
                         </div>
                     </div>
                     
                     <div class="document-summary">
-                        {{ document.summary }}
+                        RESUMEN GENERAL (ANÁLISIS AUTOMÁTICO)
+
+CONTENIDO PRINCIPAL:
+Informe Estadístico Sec.Infraestructura Quibdó-Chocó
+Integrantes:
+Manuel Saturio Asprilla Pacheco
+Omar Antonio Panesso Hinestroza
+José Iris Córdoba Palacios
+Jorge Luis Chala Moreno
+Docente:
+Humberto Vanegas...
+
+INFORMACIÓN RELEVANTE IDENTIFICADA:
+- Documento de propósito general
+- Datos y contenido procesable
+- Estructura de documento estándar
+
+SIGUIENTES PASOS:
+Configure DEEPSEEK_API_KEY para habilitar análisis automático con inteligencia artificial avanzada.
+
+---
+Resumen generado automáticamente - Configure API para análisis con DeepSeek
                     </div>
                 </div>
-                {% endfor %}
+                
             </div>
         </div>
 
@@ -422,13 +456,15 @@
         <div class="footer">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <div class="logo-icon">D</div>
+                    <div class="logo-icon">
+                        <span style="color: white; font-size: 0.875rem;"></span>
+                    </div>
                     DocuMind AI
                 </div>
                 <span>•</span>
                 <span>Análisis Inteligente de Documentos</span>
                 <span>•</span>
-                <span>Generado automáticamente el {{ summary_date }}</span>
+                <span>Generado automáticamente</span>
             </div>
         </div>
     </div>
